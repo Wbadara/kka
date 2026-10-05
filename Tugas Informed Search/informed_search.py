@@ -1,9 +1,6 @@
 import heapq
 
-# ==========================================
 # 1. DATA GRAF (PETA JAWA TIMUR)
-# Berdasarkan sisi/edge dan jarak aslinya
-# ==========================================
 graph = {
     'Magetan': {'Ngawi': 32, 'Madiun': 22, 'Ponorogo': 34},
     'Ngawi': {'Magetan': 32, 'Madiun': 30, 'Bojonegoro': 44},
@@ -24,10 +21,7 @@ graph = {
     'Situbondo': {'Probolinggo': 99}
 }
 
-# ==========================================
 # 2. DATA HEURISTIK (h(n))
-# Jarak Garis Lurus ke SURABAYA
-# ==========================================
 heuristik_ke_surabaya = {
     'Magetan': 162, 'Surabaya': 0, 'Ngawi': 130, 'Ponorogo': 128,
     'Madiun': 126, 'Bojonegoro': 60, 'Nganjuk': 70, 'Jombang': 36,
@@ -46,12 +40,8 @@ def get_heuristik(kota, tujuan):
         return heuristik_ke_surabaya.get(kota, 0)
     return 0
 
-# ==========================================
-# 3. ALGORITMA GREEDY BEST-FIRST SEARCH
-# Evaluasi murni berdasarkan h(n) terkecil
-# ==========================================
+# 3. ALGORITMA GREEDY BEST-FIRST SEARCH: Evaluasi murni berdasarkan h(n) terkecil
 def greedy_bfs(awal, tujuan):
-    # Struktur antrean: (nilai_h, nama_kota, histori_rute, total_jarak_sementara)
     queue = [(get_heuristik(awal, tujuan), awal, [awal], 0)]
     dikunjungi = set()
 
@@ -72,12 +62,8 @@ def greedy_bfs(awal, tujuan):
                     
     return None, 0
 
-# ==========================================
-# 4. ALGORITMA A* (A-STAR)
-# Evaluasi berdasarkan f(n) = g(n) + h(n)
-# ==========================================
+# 4. ALGORITMA A* (A-STAR): Evaluasi berdasarkan f(n) = g(n) + h(n)
 def a_star(awal, tujuan):
-    # Struktur antrean: (nilai_f, nama_kota, histori_rute, nilai_g)
     g_awal = 0
     f_awal = g_awal + get_heuristik(awal, tujuan)
     queue = [(f_awal, awal, [awal], g_awal)]
@@ -103,9 +89,7 @@ def a_star(awal, tujuan):
                 
     return None, 0
 
-# ==========================================
 # 5. ANTARMUKA (USER INTERFACE CLI)
-# ==========================================
 def main():
     while True:
         print("\n" + "="*50)
@@ -115,7 +99,7 @@ def main():
         print(", ".join(graph.keys()))
         print("-" * 50)
         
-        kota_awal = input("Masukkan Kota Asal\t: ").strip().capitalize()
+        kota_awal = input("Masukkan Kota Asal\t: ").strip().capitalize() # memastikan kapital awal kota dan menghapus spasi
         kota_tujuan = input("Masukkan Kota Tujuan\t: ").strip().capitalize()
         
         # Validasi Input
@@ -142,7 +126,6 @@ def main():
             print("\n[!] ERROR: Pilihan algoritma tidak valid.")
             continue
             
-        # Menampilkan Hasil
         if path:
             print("\n" + "*"*50)
             print(f"HASIL PENCARIAN ({algo_name})")
@@ -155,8 +138,7 @@ def main():
         else:
             print("\n[!] Rute tidak ditemukan.")
             
-        # Opsi Lanjut/Keluar
-        again = input("\nIngin mencari rute lain? (y/n): ").strip().lower()
+        again = input("\nIngin mencari rute lain? (y/n): ").strip().lower() # memastikan selalu huruf kecil
         if again != 'y':
             print("Terima kasih telah menggunakan program ini!")
             break
